@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clubber - Sign Up</title>
+</head>
+<body>
+    <% if (errors) { %>
+        <ul class="errors-container">
+            <% errors.forEach(error => { %> 
+                <li><%= error.msg %></li>    
+            <% })%>
+        </ul>
+    <%}%>
+    <form method="post" action="/sign-up">
+        <label for="email">Email</label>
+        <input type="email" name="email"/>
+
+        <label for="username">Username</label>
+        <input type="text" name="username"/>
+
+        <label for="password">Password</label>
+        <input type="password" name="password"/>
+
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" name="confirmPassword"/>
+
+        <button>Sign Up</button>
+    </form>
+</body>
+</html>
