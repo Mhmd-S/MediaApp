@@ -4,6 +4,8 @@ const createError = require('http-errors');
 const mongoose = require('mongoose');
 const path = require('path');
 const logger = require('morgan');
+const passport = require('passport');
+const session = require('express-session');
 
 const indexRouter = require('./router/indexRouter');
 const logInRouter = require('./router/logInRouter');
@@ -20,7 +22,7 @@ async function main() {
     await mongoose.connect(mongooseDb);
 }
 
-main().catch(err => console.log(err));
+main().catch(err => console.log('Mongo connection error'));
 
 
 // Setting up the view engine
@@ -31,6 +33,9 @@ app.set('view engine', 'ejs');
 // Middleware
 app.use(logger('dev'));
 app.use(express.json());
+app.use(session({ secret: "SuperMan", resave:false, saveUninitialized:true }));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
