@@ -8,7 +8,6 @@ const User = require('../models/User');
 // Setting up passport js
 
 passport.use(
-
     new LocalStartegy({
         usernameField: "email"
     },  async (email, password, done) => {
@@ -26,7 +25,7 @@ passport.use(
                 }
             })
             return done(null,user);
-        } catch(e) {
+        } catch(err) {
             return done(err);
         }
     })
@@ -46,13 +45,20 @@ passport.deserializeUser ( async function(id, done) {
 });
 
 exports.login_create_get = function (req,res,next){
-    res.render('log-in');
+    console.log(req.session.messages);
+    if (req.session.messages){
+        res.render('log-in', { errors : req.session.messages })
+        return;
+    }
+    res.render('log-in', { errors: [] });
 }
 
-exports.login_create_post = asyncHandler(async(req,res,next) => {
-    passport.authenticate('local', function(err, user, info, status) {
-        if (err) { return next(err) }
-        if (!user) { return res.redirect('/signin') }
-        res.redirect('/account');
-      })(req, res, next);
-});
+exports.login_create_post = [
+    passport.authenticate('local', {
+        failureMessage: true,
+        failureRedirect: "/log-in"
+    }),
+    function(req,res) {
+        res.redirect('/');
+    }
+]
