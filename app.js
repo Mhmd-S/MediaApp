@@ -10,6 +10,7 @@ const session = require('express-session');
 const indexRouter = require('./router/indexRouter');
 const logInRouter = require('./router/logInRouter');
 const signUpRouter = require('./router/SignUpRouter');
+const clubRouter = require('./router/clubRouter');
 
 const app = express();
 
@@ -39,10 +40,12 @@ app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 // Routers 
 app.use('/', indexRouter);
 app.use('/log-in', logInRouter);
 app.use('/sign-up', signUpRouter);
+app.use('/clubs', clubRouter);
 
 
 // Catching 404 and forwarding it to error handler

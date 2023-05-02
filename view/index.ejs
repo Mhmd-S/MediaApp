@@ -8,12 +8,32 @@
 </head>
 <body>
     <div className="clubs-container">
+        <% if(loggedIn) { %>
+                <a href="/clubs/create-club">Add Club</a>
+        <% } %>
+        <ul>
+            <% if(clubs.length) { %>
+                    <% clubs.forEach(club => {%>
+                            <li>
+                                <a href=<%= '/clubs/'+club.name %>>
+                                    <%= club.name %>
+                                </a>
+                            </li> 
+                    <% }) %>
+            <% } else { %>
+                    <h3>No clubs to join. Be the first to creat one!</h3>    
+            <% } %>
+        </ul>
     </div>
     <div className="feed-container">
     </div>
     <div className="utility-container"> <!-- If user is not looged in it will display the log in buttons. Otherwise display the hot topics and some utilies-->  
-        <a href="/sign-up">Sign Up</a>
-        <a href="/log-in">Log In</a>
+        <% if(loggedIn) {%>
+            <a href="/log-out">Log Out</a>
+        <% } else { %>
+            <a href="/sign-up">Sign Up</a>
+            <a href="/log-in">Log In</a>
+        <%}%>
     </div>
 </body>
 </html>

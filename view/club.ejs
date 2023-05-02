@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <h1><%= clubInfo.name %></h1>
+        <h2><%= clubInfo.description %></h2>
+        <!-- Add a form where user can insert a password and join a group. If he is already a member just show a text saying so. -->
+        <% if (!userIsMember) { %>
+            <form method="post">
+                <p><%= error %></p>    
+                <label for="passcode">
+                    Passcode:
+                </label>
+                <input type="text" name="passcode" required/>
+                <button>Join</button>
+            </form>
+        <% } else { %>
+            <p>Already a member!</p>
+        <% } %>
+    </div>
+    <div> 
+        <% if(userIsMember) { %>
+            <a href=<%=`/clubs/${clubInfo.name}/create-post`%> >Add a post!</a>
+        <% } %>
+        <!-- Display the posts -->
+        <% if (clubInfo.posts[0]) { %>
+                <ul>
+                    <% clubInfo.posts.forEach( post => { %>
+                        <li>
+                            <h3><%= post.title %></h4>
+                            <h6><%= userIsMember ? post.author.username : 'Anonymous' %></h5>
+                            <p><%= post.content %></p>
+                        </li>
+                    <% }) %>
+                </ul>
+        <% } else { %>
+                <h2>
+                    Where is everyone?
+                </h2>
+        <% } %>
+    </div>
+</body>
+</html>
