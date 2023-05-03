@@ -11,7 +11,7 @@
         <h1><%= clubInfo.name %></h1>
         <h2><%= clubInfo.description %></h2>
         <!-- Add a form where user can insert a password and join a group. If he is already a member just show a text saying so. -->
-        <% if (!userIsMember) { %>
+        <% if (!userIsMember && !userIsAdmin ) { %>
             <form method="post">
                 <p><%= error %></p>    
                 <label for="passcode">
@@ -25,7 +25,7 @@
         <% } %>
     </div>
     <div> 
-        <% if(userIsMember) { %>
+        <% if(userIsMember || userIsAdmin) { %>
             <a href=<%=`/clubs/${clubInfo.name}/create-post`%> >Add a post!</a>
         <% } %>
         <!-- Display the posts -->
@@ -33,8 +33,12 @@
                 <ul>
                     <% clubInfo.posts.forEach( post => { %>
                         <li>
+                            <!-- Add if user is admin or author to remove -->
+                            <% if(userIsAdmin) { %>
+                                <a href=<%= `/clubs/${clubInfo.name}/${post._id}/delete-post` %> >Delete Post</a>
+                            <%}%>
                             <h3><%= post.title %></h4>
-                            <h6><%= userIsMember ? post.author.username : 'Anonymous' %></h5>
+                            <h6><%= userIsMember || userIsAdmin ? post.author.username : 'Anonymous' %></h5>
                             <p><%= post.content %></p>
                         </li>
                     <% }) %>

@@ -15,12 +15,15 @@ function loggedIn(req, res, next) {
 router.get('/', loggedIn, clubController.club_create_get);
 router.get('/create-club', loggedIn, clubController.createClub_create_get);
 router.get('/:clubName/create-post', loggedIn, clubController.post_create_get);
+router.post('/:clubName/add-admin', loggedIn, clubController.addAdmin_create_get);
+router.get('/:clubName/:postId/delete-post', loggedIn, clubController.deletePost_create_get);
 router.get('/:clubName', clubController.club_create_get);
 
 
 // Posts
 router.post('/create-club', loggedIn, clubController.createClub_create_post);
 router.post('/:clubName/create-post', loggedIn, clubController.post_create_post);
+router.post('/:clubName/add-admin', loggedIn, clubController.addAdmin_create_post);
 router.post('/:clubName', loggedIn, clubController.club_create_post);
 
 module.exports = router;
